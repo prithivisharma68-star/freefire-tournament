@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Fire Tournament</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #101522;
+      color: white;
+    }
+    header {
+      padding: 24px 18px;
+      background: #19243a;
+      text-align: center;
+      border-bottom: 2px solid #ff9d00;
+    }
+    header h1 { color: #ffb52e; margin: 8px 0; }
+    .container { max-width: 650px; margin: auto; padding: 18px; }
+    .card {
+      background: #1b263b;
+      border: 1px solid #35435b;
+      border-radius: 14px;
+      padding: 18px;
+      margin: 16px 0;
+    }
+    .tag { color: #64e5a1; font-weight: bold; }
+    button {
+      background: #ff9d00;
+      color: #161616;
+      border: 0;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 14px;
+      border-radius: 7px;
+      border: 1px solid #667085;
+      font-size: 16px;
+    }
+    .note { color: #bdc8da; font-size: 14px; line-height: 1.5; }
+    footer { text-align: center; color: #bdc8da; padding: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div>🎮 FREE FIRE ESPORTS</div>
+    <h1>TOURNAMENT HUB</h1>
+    <p>Compete • Survive • Win</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>🔥 Free Fire Solo Survival</h2>
+      <p class="tag">Registration Open</p>
+      <p>Mode: Battle Royale — Solo</p>
+      <p>Maximum players: 48</p>
+      <p>Entry fee: 20 points</p>
+      <p>1st place: 50 points</p>
+      <p>2nd–20th place: 40 points each</p>
+      <button onclick="document.getElementById('registration').scrollIntoView({behavior:'smooth'})">
+        Register Now
+      </button>
+    </section>
+
+    <section class="card" id="registration">
+      <h2>📝 Player Registration</h2>
+      <form onsubmit="registerPlayer(event)">
+        <label for="playerName">Player name</label>
+        <input id="playerName" required maxlength="40" placeholder="Enter your player name">
+        <label for="playerUID">Free Fire UID</label>
+        <input id="playerUID" required inputmode="numeric" pattern="[0-9]{5,20}" placeholder="Enter your UID">
+        <button type="submit">Submit Registration</button>
+      </form>
+      <p id="message" class="note">Demo only: registrations are not saved to a shared database yet.</p>
+    </section>
+
+    <section class="card">
+      <h2>🔐 Room Information</h2>
+      <p>Room ID: <span id="roomId">Not announced</span></p>
+      <p>Room password: <span id="roomPassword">Not announced</span></p>
+      <p class="note">Room details will appear here when configured by the tournament organizer.</p>
+    </section>
+
+    <section class="card">
+      <h2>🏆 Tournament Rules</h2>
+      <p>1. Enter your correct player name and UID.</p>
+      <p>2. Follow the room instructions from the organizer.</p>
+      <p>3. Results and prizes must be verified by the organizer.</p>
+    </section>
+  </main>
+
+  <footer>Free Fire Tournament Hub · Community tournament website</footer>
+
+  <script>
+    function registerPlayer(event) {
+      event.preventDefault();
+      const name = document.getElementById('playerName').value.trim();
+      const uid = document.getElementById('playerUID').value.trim();
+      if (!name || !/^[0-9]{5,20}$/.test(uid)) {
+        document.getElementById('message').textContent =
+          'Please enter a player name and a valid numeric UID.';
+        return;
+      }
+      document.getElementById('message').textContent =
+        'Demo registration received for ' + name +
+        ' (UID: ' + uid + '). This has not been saved to a server.';
+      event.target.reset();
+    }
+  </script>
+</body>
+        </html>
+        
