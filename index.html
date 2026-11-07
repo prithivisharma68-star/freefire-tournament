@@ -2,121 +2,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Free Fire Tournament</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #101522;
-      color: white;
-    }
-    header {
-      padding: 24px 18px;
-      background: #19243a;
-      text-align: center;
-      border-bottom: 2px solid #ff9d00;
-    }
-    header h1 { color: #ffb52e; margin: 8px 0; }
-    .container { max-width: 650px; margin: auto; padding: 18px; }
-    .card {
-      background: #1b263b;
-      border: 1px solid #35435b;
-      border-radius: 14px;
-      padding: 18px;
-      margin: 16px 0;
-    }
-    .tag { color: #64e5a1; font-weight: bold; }
-    button {
-      background: #ff9d00;
-      color: #161616;
-      border: 0;
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 8px 0 14px;
-      border-radius: 7px;
-      border: 1px solid #667085;
-      font-size: 16px;
-    }
-    .note { color: #bdc8da; font-size: 14px; line-height: 1.5; }
-    footer { text-align: center; color: #bdc8da; padding: 24px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free Fire Solo Survival</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101522;color:white;font-family:Arial,sans-serif}
+header{background:#19243a;padding:22px 16px;text-align:center}
+header h1{color:#ffb52e;margin:5px}
+main{max-width:600px;margin:auto;padding:16px}
+.card{background:#1c2940;border:1px solid #35445f;border-radius:14px;padding:18px;margin:15px 0}
+h2{color:#ffb52e;margin-top:0}
+.stats{display:flex;justify-content:space-around;text-align:center;gap:8px}
+.stat{background:#263751;padding:14px 5px;border-radius:10px;flex:1}
+.stat strong{display:block;font-size:23px;color:#ffbd42}
+input,button{width:100%;padding:13px;margin:7px 0;border-radius:8px;font-size:15px}
+input{background:#101a2b;color:white;border:1px solid #52617a}
+button{background:#ffad27;color:#171717;border:0;font-weight:bold}
+button.secondary{background:#344966;color:white}
+button.danger{background:#b83d42;color:white}
+button:disabled{opacity:.5}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:10px 5px;border-bottom:1px solid #42516a;text-align:left}
+small,.muted{color:#aebbd0}
+.hidden{display:none}
+footer{text-align:center;color:#8996aa;padding:20px}
+</style>
 </head>
 <body>
-  <header>
-    <div>🎮 FREE FIRE ESPORTS</div>
-    <h1>TOURNAMENT HUB</h1>
-    <p>Compete • Survive • Win</p>
-  </header>
+<header>
+<h1>🔥 FREE FIRE</h1>
+<h2>SOLO SURVIVAL</h2>
+<p>One Match • 48 Players • Battle for Victory</p>
+</header>
+<main>
+<section class="card">
+<h2>🏆 Tournament Overview</h2>
+<div class="stats">
+<div class="stat"><strong id="count">0/48</strong><small>Players</small></div>
+<div class="stat"><strong>48</strong><small>Maximum</small></div>
+<div class="stat"><strong>1</strong><small>Match</small></div>
+</div>
+<p id="status">Registration is OPEN</p>
+</section>
 
-  <main class="container">
-    <section class="card">
-      <h2>🔥 Free Fire Solo Survival</h2>
-      <p class="tag">Registration Open</p>
-      <p>Mode: Battle Royale — Solo</p>
-      <p>Maximum players: 48</p>
-      <p>Entry fee: 20 points</p>
-      <p>1st place: 50 points</p>
-      <p>2nd–20th place: 40 points each</p>
-      <button onclick="document.getElementById('registration').scrollIntoView({behavior:'smooth'})">
-        Register Now
-      </button>
-    </section>
+<section class="card">
+<h2>🎁 Prize List</h2>
+<table>
+<tr><th>Position</th><th>Prize</th></tr>
+<tr><td>🥇 1st Place</td><td>50 Points</td></tr>
+<tr><td>2nd–20th Place</td><td>40 Points each</td></tr>
+</table>
+</section>
 
-    <section class="card" id="registration">
-      <h2>📝 Player Registration</h2>
-      <form onsubmit="registerPlayer(event)">
-        <label for="playerName">Player name</label>
-        <input id="playerName" required maxlength="40" placeholder="Enter your player name">
-        <label for="playerUID">Free Fire UID</label>
-        <input id="playerUID" required inputmode="numeric" pattern="[0-9]{5,20}" placeholder="Enter your UID">
-        <button type="submit">Submit Registration</button>
-      </form>
-      <p id="message" class="note">Demo only: registrations are not saved to a shared database yet.</p>
-    </section>
+<section class="card">
+<h2>📝 Player Registration</h2>
+<input id="playerName" placeholder="Enter your player name">
+<input id="playerUid" placeholder="Enter Free Fire UID">
+<button id="registerBtn" onclick="register()">Register Now</button>
+<p class="muted">Maximum 48 players. Each UID can register once.</p>
+<p id="message"></p>
+</section>
 
-    <section class="card">
-      <h2>🔐 Room Information</h2>
-      <p>Room ID: <span id="roomId">Not announced</span></p>
-      <p>Room password: <span id="roomPassword">Not announced</span></p>
-      <p class="note">Room details will appear here when configured by the tournament organizer.</p>
-    </section>
+<section class="card">
+<h2>👥 Registered Players</h2>
+<table>
+<thead><tr><th>#</th><th>Name</th><th>UID</th></tr></thead>
+<tbody id="players"></tbody>
+</table>
+</section>
 
-    <section class="card">
-      <h2>🏆 Tournament Rules</h2>
-      <p>1. Enter your correct player name and UID.</p>
-      <p>2. Follow the room instructions from the organizer.</p>
-      <p>3. Results and prizes must be verified by the organizer.</p>
-    </section>
-  </main>
+<section class="card">
+<h2>🔑 Room Details</h2>
+<p>Room ID: <strong id="roomId">Not announced</strong></p>
+<p>Password: <strong id="roomPass">Not announced</strong></p>
+<p class="muted">Room details are announced by the tournament admin.</p>
+</section>
 
-  <footer>Free Fire Tournament Hub · Community tournament website</footer>
+<section class="card">
+<h2>🏅 Leaderboard</h2>
+<table>
+<thead><tr><th>Rank</th><th>Player</th><th>Points</th></tr></thead>
+<tbody id="leaderboard"><tr><td colspan="3">Results not announced yet.</td></tr></tbody>
+</table>
+</section>
 
-  <script>
-    function registerPlayer(event) {
-      event.preventDefault();
-      const name = document.getElementById('playerName').value.trim();
-      const uid = document.getElementById('playerUID').value.trim();
-      if (!name || !/^[0-9]{5,20}$/.test(uid)) {
-        document.getElementById('message').textContent =
-          'Please enter a player name and a valid numeric UID.';
-        return;
-      }
-      document.getElementById('message').textContent =
-        'Demo registration received for ' + name +
-        ' (UID: ' + uid + '). This has not been saved to a server.';
-      event.target.reset();
-    }
-  </script>
+<section class="card">
+<h2>⚙️ Admin Panel</h2>
+<input id="adminPin" type="password" placeholder="Admin PIN">
+<button onclick="login()">Admin Login</button>
+<div id="adminArea" class="hidden">
+<hr>
+<h3>Tournament Controls</h3>
+<button class="secondary" onclick="toggleRegistration()">Open / Close Registration</button>
+<input id="newRoomId" placeholder="Set Room ID">
+<input id="newRoomPass" placeholder="Set Room Password">
+<button onclick="saveRoom()">Save Room Details</button>
+<h3>Publish Results</h3>
+<p class="muted">Enter the UID and finishing position. Only ranks 1–20 receive points.</p>
+<input id="resultUid" placeholder="Player UID">
+<input id="resultRank" type="number" min="1" max="48" placeholder="Finishing position">
+<button onclick="saveResult()">Save Result</button>
+<button class="danger" onclick="logout()">Admin Logout</button>
+</div>
+</section>
+</main>
+<footer>Free Fire Solo Survival Tournament</footer>
+
+<script>
+const KEY="ff_solo_tournament_v1";
+const ADMIN_PIN="1234"; // Change this before publishing.
+let data=JSON.parse(localStorage.getItem(KEY)||"null")||{
+ players:[],open:true,roomId:"",roomPass:"",results:[]
+};
+function save(){
+ localStorage.setItem(KEY,JSON.stringify(data));
+ render();
+}
+function render(){
+ document.getElementById("count").textContent=data.players.length+"/48";
+ document.getElementById("status").textContent=data.open?"Registration is OPEN":"Registration is CLOSED";
+ document.getElementById("registerBtn").disabled=!data.open||data.players.length>=48;
+ document.getElementById("roomId").textContent=data.roomId||"Not announced";
+ document.getElementById("roomPass").textContent=data.roomPass||"Not announced";
+ document.getElementById("players").innerHTML=data.players.map((p,i)=>
+ `<tr><td>${i+1}</td><td>${escapeHTML(p.name)}</td><td>${escapeHTML(p.uid)}</td></tr>`
+ ).join("")||'<tr><td colspan="3">No players registered.</td></tr>';
+ const results=[...data.results].sort((a,b)=>a.rank-b.rank);
+ document.getElementById("leaderboard").innerHTML=results.map(r=>
+ `<tr><td>${r.rank}</td><td>${escapeHTML(r.name)}</td><td>${r.points}</td></tr>`
+ ).join("")||'<tr><td colspan="3">Results not announced yet.</td></tr>';
+}
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function register(){
+ const name=document.getElementById("playerName").value.trim();
+ const uid=document.getElementById("playerUid").value.trim();
+ const msg=document.getElementById("message");
+ if(!name||!uid){msg.textContent="Enter your name and UID.";return;}
+ if(!/^\d{5,20}$/.test(uid)){msg.textContent="Enter a valid numeric UID.";return;}
+ if(!data.open){msg.textContent="Registration is closed.";return;}
+ if(data.players.length>=48){msg.textContent="Tournament is full.";return;}
+ if(data.players.some(p=>p.uid===uid)){msg.textContent="This UID is already registered.";return;}
+ data.players.push({name,uid});
+ save();
+ msg.textContent="Registration successful!";
+ document.getElementById("playerName").value="";
+ document.getElementById("playerUid").value="";
+}
+function login(){
+ if(document.getElementById("adminPin").value!==ADMIN_PIN){
+ alert("Incorrect admin PIN.");return;
+ }
+ document.getElementById("adminArea").classList.remove("hidden");
+}
+function logout(){
+ document.getElementById("adminArea").classList.add("hidden");
+ document.getElementById("adminPin").value="";
+}
+function toggleRegistration(){data.open=!data.open;save();}
+function saveRoom(){
+ data.roomId=document.getElementById("newRoomId").value.trim();
+ data.roomPass=document.getElementById("newRoomPass").value.trim();
+ save();alert("Room details saved.");
+}
+function saveResult(){
+ const uid=document.getElementById("resultUid").value.trim();
+ const rank=Number(document.getElementById("resultRank").value);
+ const player=data.players.find(p=>p.uid===uid);
+ if(!player){alert("Player UID not found.");return;}
+ if(!Number.isInteger(rank)||rank<1||rank>48){alert("Enter a rank from 1 to 48.");return;}
+ if(data.results.some(r=>r.rank===rank&&r.uid!==uid)){alert("This rank is already assigned.");return;}
+ if(data.results.some(r=>r.uid===uid)){alert("This player already has a result.");return;}
+ const points=rank===1?50:rank<=20?40:0;
+ data.results.push({uid,name:player.name,rank,points});
+ save();
+ document.getElementById("resultUid").value="";
+ document.getElementById("resultRank").value="";
+ alert("Result saved.");
+}
+render();
+</script>
 </body>
-        </html>
-        
+</html>
